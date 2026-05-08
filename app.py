@@ -6,6 +6,7 @@ import time
 import tempfile
 from flask import Flask, request, jsonify
 from datetime import datetime
+import httpx
 from openai import OpenAI
 
 app = Flask(__name__)
@@ -19,7 +20,11 @@ MILWAUKEE_CAMPAIGN_ID = os.environ.get("MILWAUKEE_CAMPAIGN_ID", "b6758280-a3f4-4
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL", "https://openai.manusai.io/v1")
 
-openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
+openai_client = OpenAI(
+    api_key=OPENAI_API_KEY,
+    base_url=OPENAI_BASE_URL,
+    http_client=httpx.Client()
+)
 
 TELEGRAM_API = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
 
